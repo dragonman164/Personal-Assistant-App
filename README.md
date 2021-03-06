@@ -34,6 +34,8 @@ python manage.py runserver
 ## Mobile Applications
 Make sure to have flutter and android studio installed
 ~~~
+flutter clean
+flutter pub get
 flutter run
 ~~~
 
@@ -81,17 +83,4 @@ python runfile.py
 
  
 
-## How to Run on your system?
 
-1. Install android studio. (It will also install all dependencies)
-
-2. Download and configure flutter
-
-3. Run the following commands as shown:(Make sure to connect an android device)
-
-~~~bash
-cd Swasthya Saathi App
-flutter clean
-flutter pub get
-flutter run
-~~~
