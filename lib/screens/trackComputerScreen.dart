@@ -1,9 +1,42 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class TrackScreen extends StatelessWidget {
+void displayDialog (BuildContext context,String url)
+{
+  showDialog(context:context,builder: (_)=>Dialog(
+    child: Container(
+      width: 400,
+      height: 300,
+      child: Image(
+        image: NetworkImage(url),
+      )
+    ),
+  ));
+
+}
+
+
+
+
+class TrackScreen extends StatefulWidget {
   static String routeName = '/trackDetails';
+
+  @override
+  _TrackScreenState createState() => _TrackScreenState();
+}
+
+class _TrackScreenState extends State<TrackScreen> {
+
+  Map <String,double> data = {
+    "Battery":20,
+    "CPU":20,
+    "RAM":20,
+    "Disk":20,
+  };
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,7 +80,7 @@ class TrackScreen extends StatelessWidget {
                     DataCell(Text('CPU Usage',style: TextStyle(
                       color: Colors.white,
                     ),)),
-                    DataCell(Text('20 %',style: TextStyle(
+                    DataCell(Text(data["CPU"].toString(),style: TextStyle(
                       color: Colors.white,
                     ),))
                   ]
@@ -57,7 +90,7 @@ class TrackScreen extends StatelessWidget {
                   DataCell(Text('RAM Usage',style: TextStyle(
                     color: Colors.white,
                   ),)),
-                  DataCell(Text('20 %',style: TextStyle(
+                  DataCell(Text(data["RAM"].toString(),style: TextStyle(
                     color: Colors.white,
                   ),))
                 ]
@@ -67,7 +100,7 @@ class TrackScreen extends StatelessWidget {
                   DataCell(Text('Disk Usage',style: TextStyle(
                     color: Colors.white,
                   ),)),
-                  DataCell(Text('20 %',style: TextStyle(
+                  DataCell(Text(data["Disk"].toString(),style: TextStyle(
                     color: Colors.white,
                   ),))
                 ]
@@ -85,8 +118,33 @@ class TrackScreen extends StatelessWidget {
             ),),
           ),
             InkWell(
-              onTap: () {
-                print("Taking a Picture from WebCam");
+              onTap: () async{
+                var check,url = "http://192.168.1.6:8000/media/";
+                var headers = {
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Basic YWRtaW46YWRtaW4='
+                };
+                var request = http.MultipartRequest('GET', Uri.parse('http://192.168.1.6:8000/api3/'));
+                request.fields.addAll({
+                  'query': 'photo'
+                });
+
+                request.headers.addAll(headers);
+
+                http.StreamedResponse response = await request.send();
+
+                if (response.statusCode == 200) {
+                  check = await response.stream.bytesToString();
+                  check = jsonDecode(check);
+                 url += check["file"].substring(7,check["file"].length);
+                }
+                else {
+                print(response.reasonPhrase);
+                }
+                displayDialog(context,url);
+
+
+
               },
               child: Container(
               width: 200,
@@ -108,7 +166,7 @@ class TrackScreen extends StatelessWidget {
             CircularPercentIndicator(radius: 200,
             backgroundColor: Colors.red,
             lineWidth: 20,
-            percent: 0.2,
+            percent: data["Battery"]/100,
             center: Container(
               margin: EdgeInsets.all(40),
               child: Column(
@@ -128,9 +186,25 @@ class TrackScreen extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.orange,
           child: Icon(Icons.refresh,color: Colors.indigo,),
-          onPressed: () {
-           print("This button was pressed");
-          },
+          onPressed: () async{
+
+            try{var headers = {
+              'Content-Type': 'application/json',
+              'Authorization': 'Basic YWRtaW46YWRtaW4='
+            };
+            var request = await http.get('http://192.168.1.6:8000/api2/',headers: headers);
+            var new_data = jsonDecode(request.body);
+             data["Battery"] = new_data["battery_percentage"].toDouble();
+             data["CPU"] = new_data["cpu_usage"].toDouble();
+             data["RAM"] = new_data["ram_usage"].toDouble();
+             data["Disk"] = new_data["disk_usage"].toDouble();
+  setState(() {
+
+  });}catch(e)
+            {
+              print("Error");
+            }
+             },
         ),
       ),
     );

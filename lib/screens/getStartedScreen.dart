@@ -148,6 +148,7 @@ class GetStartedScreen extends StatelessWidget {
 
                 ),
               ),
+
             ],
           ),
         )

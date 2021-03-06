@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
 import 'helpScreen.dart';
 import 'getStartedScreen.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:http/http.dart' as http;
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static String routeName = '/';
+ 
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool loading = false;
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -63,7 +74,26 @@ class HomeScreen extends StatelessWidget {
                         color: Colors.white,
                         fontSize: 18,
                       ),),
-                      onTap: () {
+                      onTap: () async{
+                        loading = true;
+                        var headers = {
+                          'Content-Type': 'application/json',
+                          'Authorization': 'Basic YWRtaW46YWRtaW4='
+                        };
+                        var request = http.MultipartRequest('POST', Uri.parse('http://192.168.1.6:8000/api4/'));
+                        request.fields.addAll({
+                          'mobile': 'true'
+                        });
+                        request.headers.addAll(headers);
+                        http.StreamedResponse response = await request.send();
+                        if (response.statusCode == 200) {
+                          print(await response.stream.bytesToString());
+                        }
+                        else {
+                          print(response.reasonPhrase);
+                        }
+                        loading = false;
+                        setState(() {});
                       Navigator.of(context).pushNamed(GetStartedScreen.routeName);
                       },
                     ),
@@ -87,11 +117,16 @@ class HomeScreen extends StatelessWidget {
                     fontSize: 18,
                   ),),
                   onTap: () {
+
                     Navigator.of(context).pushNamed(HelpScreen.routeName);
                   },
                 ),
               ),
-            )
+            ),
+            loading?SpinKitCubeGrid(
+              color: Colors.purple,
+              size: 50,
+            ):Text('')
 
           ],
         )

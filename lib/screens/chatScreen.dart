@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
 
 
 Widget MessageWidget(String data)
@@ -98,8 +98,30 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
               SizedBox(width: 10,),
               FloatingActionButton(
-                onPressed: () {
+                onPressed: () async{
+                  if(query.value.text!= null)
+                   {
+                     var headers = {
+                       'Content-Type': 'application/json',
+                       'Authorization': 'Basic YWRtaW46YWRtaW4='
+                     };
+                     var request = http.MultipartRequest('POST', Uri.parse('http://192.168.1.6:8000/api1/'));
+                     request.fields.addAll({
+                       'query': query.value.text
+                     });
 
+                     request.headers.addAll(headers);
+
+                     http.StreamedResponse response = await request.send();
+
+                     if (response.statusCode == 200) {
+                       print(await response.stream.bytesToString());
+                  }
+                  else {
+                  print(response.reasonPhrase);
+                  }
+
+                  }
                  setState(() {
                    messagesSent.add(MessageWidget(query.value.text));
                  });

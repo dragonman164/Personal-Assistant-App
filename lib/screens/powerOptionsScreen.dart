@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
 
 bool displayDialog (BuildContext context)
 {
@@ -109,9 +109,27 @@ class PowerOptionsScreen extends StatelessWidget {
                   ),),
                 ),
                 InkWell(
-                  onTap: () {
+                  onTap: () async{
                     bool ans = displayDialog(context);
-                    print(ans);
+                    var headers = {
+                      'Content-Type': 'application/json',
+                      'Authorization': 'Basic YWRtaW46YWRtaW4='
+                    };
+                    var request = http.MultipartRequest('POST', Uri.parse('http://192.168.1.6:8000/api1/'));
+                    request.fields.addAll({
+                      'query': 'shutdown',
+                    });
+
+                    request.headers.addAll(headers);
+
+                    http.StreamedResponse response = await request.send();
+
+                    if (response.statusCode == 200) {
+                      print(await response.stream.bytesToString());
+                    }
+                    else {
+                    print(response.reasonPhrase);
+                    }
                   },
                   child: Container(
                     padding: EdgeInsets.all(20),
@@ -151,8 +169,27 @@ class PowerOptionsScreen extends StatelessWidget {
                   ),
                 ),
                 InkWell(
-                  onTap: () {
-                    print('Sign Out options will be managed here');
+                  onTap: () async{
+                    bool ans = displayDialog(context);
+                    var headers = {
+                      'Content-Type': 'application/json',
+                      'Authorization': 'Basic YWRtaW46YWRtaW4='
+                    };
+                    var request = http.MultipartRequest('POST', Uri.parse('http://192.168.1.6:8000/api1/'));
+                    request.fields.addAll({
+                      'query': 'restart',
+                    });
+
+                    request.headers.addAll(headers);
+
+                    http.StreamedResponse response = await request.send();
+
+                    if (response.statusCode == 200) {
+                      print(await response.stream.bytesToString());
+                    }
+                    else {
+                    print(response.reasonPhrase);
+                    }
                   },
                   child: Container(
                     padding: EdgeInsets.all(20),
@@ -192,8 +229,27 @@ class PowerOptionsScreen extends StatelessWidget {
                   ),
                 ),
                 InkWell(
-                  onTap: () {
-                    print('Log out options will be managed here');
+                  onTap: () async{
+                    bool ans = displayDialog(context);
+                    var headers = {
+                      'Content-Type': 'application/json',
+                      'Authorization': 'Basic YWRtaW46YWRtaW4='
+                    };
+                    var request = http.MultipartRequest('POST', Uri.parse('http://192.168.1.6:8000/api1/'));
+                    request.fields.addAll({
+                      'query': 'logout',
+                    });
+
+                    request.headers.addAll(headers);
+
+                    http.StreamedResponse response = await request.send();
+
+                    if (response.statusCode == 200) {
+                      print(await response.stream.bytesToString());
+                    }
+                    else {
+                    print(response.reasonPhrase);
+                    }
                   },
                   child: Container(
                     padding: EdgeInsets.all(20),
