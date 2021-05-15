@@ -1,28 +1,32 @@
-# Personal Assistant Project
+# Personal Assistant Project 🧑‍🦲
 
 
-## About 
+## About 🔘
 
 It is a system which is designed to control and track your PC remotely. 
 
 Features : 
-1. Give Instructions to your PC remotely using mobile device or microphone.
-2.  You can give instructions to your pc using mobile application from anywhere around the world.
-3. Track system details such as batter, CPU Usage etc. You can also take a screenshot from your webcam to monitor who is using your pc.
+1. Give Instructions to your PC remotely using mobile device 📱 or microphone🎤 .
+2.  You can give instructions to your pc using mobile application from anywhere around the world. 🌏
+3. Track system details such as battery 🔋, CPU Usage 💻 etc. You can also take a screenshot from your webcam to monitor who is using your pc. 📷 
 
+
+### Techonlogies Used 🧑‍💻
+1. Python 
+2. Flutter 
+3. Django Framework
 
 ## Project Comprises of three Parts
-### Note: This repository has three branches for three different codebases.
-1. Mobile Application (On master Branch )
-2. Django Backend Server (On BackendServer Branch)
-3. Python App (On pythonbackend Branch)
+1. Mobile Application 
+2. Django Backend Server 
+3. Python App 
 
 
 
 
 ## How to deploy this whole system ?
 
-## Django Application
+## Django Application 💻
 Use the commands given below
 
 ~~~
@@ -31,7 +35,7 @@ python manage.py runserver
 ~~~
 
 
-## Mobile Applications
+## Mobile Application 📱
 Make sure to have flutter and android studio installed
 ~~~
 flutter clean
@@ -39,7 +43,7 @@ flutter pub get
 flutter run
 ~~~
 
-## Python App
+## Python App 🐍
 Python App
 ~~~
 python runfile.py
@@ -52,35 +56,19 @@ python runfile.py
 
 
 
-<table>
-  <tr>
-    <td>Home Page</td>
-     <td>Help Screen</td>
-     <td>Main Screen</td>
-  </tr>
-  <tr>
-    <td><img src="Images/1.PNG" width=270 height=480></td>
-    <td><img src="Images/2.PNG" width=270 height=480></td>
-    <td><img src="Images/3.PNG" width=270 height=480></td>
-  </tr>
- </table>
+|                 Onboarding Screen                 |                 About Screen                       |                    Dashboard                |
+|:-------------------------------------------------:|:-------------------------------------------------:|:-------------------------------------------------:|
+| <img width="1604" src="./Images/1.PNG"> | <img width="1604" src="./Images/2.PNG"> | <img width="1604" src="./Images/3.PNG"> |
 
 
-<table>
-  <tr>
-    <td>Chat Screen</td>
-     <td>System Tracking Screen</td>
-     <td>Web Cam Image Access Screen</td>
-  </tr>
-  <tr>
-    <td><img src="Images/4.PNG" width=270 height=480></td>
-    <td><img src="Images/5.PNG" width=270 height=480></td>
-    <td><img src="Images/6.PNG" width=270 height=480></td>
-  </tr>
- </table>
 
+|                 Chat Screen                 |                 Track Details Screen                       |                    Web Cam Screenshot                |
+|:-------------------------------------------------:|:-------------------------------------------------:|:-------------------------------------------------:|
+| <img width="1604" src="./Images/4.PNG"> | <img width="1604" src="./Images/5.PNG"> | <img width="1604" src="./Images/6.PNG"> |
 
 
  
 
 
+### Built by Developers </>
+### Built with Love ❤️
